@@ -1,69 +1,96 @@
+/* 
+  ShapeIT Freshdesk Portal Stylesheet
+  Version: 1.0.0
+  Author: ChatGPT (Jimbo)
+  Notes:
+    - Host this file on a static host (e.g., GitHub + jsDelivr) and include in Freshdesk Header:
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/USERNAME/REPO@v1.0.0/css/shapeit-portal.css">
+    - Compatible with the template structure we discussed (fd-nav, fd-shell, fd-sidebar, fd-main, fd-toc).
+*/
+
+/* ------------- Brand Tokens ------------- */
 :root {
+  /* Core */
   --bg: #F5F6F8;
   --surface: #FFFFFF;
   --text: #1A1F28;
   --muted: #6C7284;
   --border: #DDDEE2;
+
+  /* Accents (logo-inspired gradient) */
   --accent-start: #4A90E2;
   --accent-end: #9B59B6;
   --gradient-accent: linear-gradient(135deg, var(--accent-start), var(--accent-end));
   --link: var(--accent-start);
   --link-hover: var(--accent-end);
+
+  /* Code/Callouts */
   --code-bg: #F0F0F0;
   --code: #1A1F28;
+  --callout-note-bg: #ECF6FF;
+  --callout-tip-bg: #ECFFF4;
+  --callout-warn-bg: #FFF6EC;
+
+  /* Focus/States */
+  --focus: rgba(74, 144, 226, 0.35); /* focus ring */
 }
+
+/* ------------- Base ------------- */
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
 body {
+  margin: 0;
   background: var(--bg);
   color: var(--text);
   font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-a {
-  color: var(--link);
-  text-decoration: none;
-}
-a:hover {
-  color: var(--link-hover);
-  text-decoration: underline;
-}
+img, svg, video { max-width: 100%; height: auto; }
+a { color: var(--link); text-decoration: none; }
+a:hover { color: var(--link-hover); text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 
-/* Top bar */
+/* Utility */
+.spacer { flex: 1 1 auto; }
+.hide { display: none !important; }
+
+/* ------------- Top Navigation ------------- */
 .fd-nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 18px;
+  padding: 12px 20px;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 20px;
 }
-.fd-nav .brand img {
-  height: 24px;
-  display: block;
+.fd-nav .brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-weight: 700; color: var(--text);
 }
+.fd-nav .brand img { height: 24px; display: block; }
+.fd-nav a { color: var(--text); opacity: .92; }
+.fd-nav a:hover { opacity: 1; }
 .fd-nav .cta {
   padding: 8px 12px;
-  background: var(--gradient-accent);
   border-radius: 8px;
-  color: #ffffff;
-  font-weight: 500;
+  color: #fff;
+  background-image: var(--gradient-accent);
+  transition: opacity .15s ease;
 }
-.fd-nav .cta:hover {
-  opacity: 0.9;
-}
+.fd-nav .cta:hover { opacity: .9; }
 
-/* Layout shells */
+/* ------------- Three-Column Layout ------------- */
 .fd-shell {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr) 240px;
+  grid-template-columns: 260px minmax(0,1fr) 240px;
   gap: 24px;
   padding: 24px;
+  align-items: start;
 }
 .fd-sidebar,
 .fd-toc {
   position: sticky;
-  top: 72px;
+  top: 72px; /* account for nav height */
   height: calc(100vh - 96px);
   overflow: auto;
   padding: 12px;
@@ -71,18 +98,19 @@ a:hover {
   border: 1px solid var(--border);
   border-radius: 12px;
 }
-.fd-main {
-  max-width: 840px;
-}
+.fd-main { max-width: 840px; }
+
+/* ------------- Responsive ------------- */
 @media (max-width: 1100px) {
   .fd-shell { grid-template-columns: 1fr; }
   .fd-toc { display: none; }
 }
 @media (max-width: 900px) {
   .fd-sidebar { display: none; }
+  .fd-shell { padding: 16px; gap: 16px; }
 }
 
-/* Sidebar nav */
+/* ------------- Sidebar Navigation ------------- */
 .navlist { list-style: none; margin: 0; padding: 0; }
 .navlist a {
   display: block;
@@ -90,9 +118,8 @@ a:hover {
   border-radius: 8px;
   color: var(--text);
 }
-.navlist a:hover {
-  background: var(--border);
-}
+.navlist a:hover { background: var(--border); }
+.section { margin: 10px 0; }
 .section .title {
   font-size: 12px;
   letter-spacing: .1em;
@@ -101,26 +128,39 @@ a:hover {
   margin: 12px 8px;
 }
 
-/* Content styles */
-.fd-main h1 {
-  font-size: 2rem;
-  margin: .2em 0 .5em;
-}
+/* ------------- Content Styling ------------- */
+.fd-main h1 { font-size: 2rem; margin: .2em 0 .5em; }
 .fd-main h2 {
-  font-size: 1.4rem;
-  margin: 2em 0 .5em;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: .3em;
+  font-size: 1.4rem; margin: 2em 0 .5em;
+  border-bottom: 1px solid var(--border); padding-bottom: .3em;
 }
+.fd-main h3 { font-size: 1.1rem; margin: 1.2em 0 .4em; }
+.fd-main p, .fd-main li { max-width: 70ch; }
+.fd-main table { border-collapse: collapse; font-size: .95rem; }
+.fd-main th, .fd-main td { border: 1px solid var(--border); padding: 8px 10px; }
+.fd-main blockquote {
+  border-left: 4px solid var(--border);
+  margin: 0; padding: .4em 1em; color: var(--muted); background: #fff;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Code */
 .fd-main pre {
   background: var(--code-bg);
   color: var(--code);
   padding: 14px;
   border-radius: 8px;
   overflow: auto;
-  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   font-size: .95rem;
 }
+.fd-main code {
+  background: rgba(0,0,0,.06);
+  padding: .1em .35em;
+  border-radius: 6px;
+}
+
+/* ------------- Callouts ------------- */
 .fd-callout {
   border-left: 4px solid var(--link);
   background: #f0f7ff;
@@ -128,14 +168,50 @@ a:hover {
   border-radius: 8px;
   margin: 18px 0;
 }
+.fd-callout.note { background: var(--callout-note-bg); border-left-color: var(--accent-start); }
+.fd-callout.tip { background: var(--callout-tip-bg); border-left-color: #22c55e; }
+.fd-callout.warn { background: var(--callout-warn-bg); border-left-color: #f59e0b; }
 
-/* Pager links */
+/* ------------- Pager ------------- */
+.fd-pager { display: flex; justify-content: space-between; gap: 12px; margin: 48px 0; }
 .fd-pager a {
   padding: 10px 14px;
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text);
 }
-.fd-pager a:hover {
-  border-color: var(--link-hover);
+.fd-pager a:hover { border-color: var(--link-hover); }
+
+/* ------------- Forms/Tickets (light polish, non-invasive) ------------- */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="search"],
+select, textarea {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  width: 100%;
 }
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--focus);
+  border-color: var(--accent-start);
+}
+button, .btn, input[type="submit"] {
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  color: #fff;
+  background-image: var(--gradient-accent);
+  transition: transform .06s ease, opacity .15s ease;
+}
+button:hover, .btn:hover, input[type="submit"]:hover { opacity: .9; }
+button:active, .btn:active, input[type="submit"]:active { transform: translateY(1px); }
+
+/* ------------- Helpers ------------- */
+/* Constrain article images to content width */
+.fd-main img { border-radius: 8px; }
+.fd-main .full-bleed { width: 100vw; margin-left: 50%; transform: translateX(-50%); }
