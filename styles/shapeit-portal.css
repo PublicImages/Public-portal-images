@@ -144,6 +144,14 @@ a:hover { color: var(--link-hover); text-decoration: underline; }
   border-radius: 0 8px 8px 0;
 }
 
+<style>
+  :root { --header-h: 56px; }
+  .fd-nav { height: var(--header-h); position: sticky; top: 0; z-index: 1000; }
+  /* Push the page below the sticky header */
+  body { padding-top: var(--header-h); scroll-padding-top: var(--header-h); }
+</style>
+
+
 /* Code */
 .fd-main pre {
   background: var(--code-bg);
