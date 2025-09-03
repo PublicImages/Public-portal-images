@@ -223,3 +223,60 @@ button:active, .btn:active, input[type="submit"]:active { transform: translateY(
 /* Constrain article images to content width */
 .fd-main img { border-radius: 8px; }
 .fd-main .full-bleed { width: 100vw; margin-left: 50%; transform: translateX(-50%); }
+
+
+/* ===== HERO (Home only) ===== */
+:root{
+  /* Point this to your direct image URL (e.g. jsDelivr GitHub asset) */
+  --hero-img: url("https://i.ibb.co/vCfFj6zf/shapeit-hero-jpg.jpg");
+  --hero-h: 360px;              /* height target */
+  --hero-radius: 20px;          /* rounded corners */
+  --hero-overlay: rgba(0,0,0,.35);  /* darken for text legibility */
+  --hero-maxw: 1200px;          /* inner content width */
+}
+
+.fd-hero{
+  display:none;                 /* default off; JS toggles on home */
+  margin: 16px 20px 0;
+  min-height: var(--hero-h);
+  border-radius: var(--hero-radius);
+  background-image: var(--hero-img);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* overlay for contrast */
+.fd-hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background: var(--hero-overlay);
+}
+
+/* inner content */
+.fd-hero__inner{
+  position: relative; /* above overlay */
+  max-width: var(--hero-maxw);
+  margin: 0 auto;
+  padding: 28px 28px 32px;
+  display: grid;
+  gap: 10px;
+}
+
+.fd-hero__title{
+  margin: 0;
+  font-size: clamp(28px, 3.6vw, 40px);
+  line-height: 1.1;
+  color: #fff;
+  font-weight: 700;
+}
+.fd-hero__subtitle{ margin: 0; color: #f1f5f9; font-size: 16px; }
+.fd-hero__actions{ display: flex; gap: 10px; margin-top: 8px; }
+.fd-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:40px; padding:0 14px; border-radius:10px;
+  background:#ffffff; color:#111827; text-decoration:none; font-weight:600;
+  border:1px solid #e5e7eb;
+}
+.fd-btn--primary{ background:#111827; color:#fff; border-color: #111827; }
